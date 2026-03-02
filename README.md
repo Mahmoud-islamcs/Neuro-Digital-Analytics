@@ -12,3 +12,6 @@
 3. SQL analysis
 4. Visualization
 5. ML prediction
+
+## Project Status
+This project is currently under development.
