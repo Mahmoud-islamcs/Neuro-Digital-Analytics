@@ -1,0 +1,54 @@
+Table Name,Column Name,Data Type,Nullable,Description
+Cognitive_Metrics,test_id,int,NO,A unique ID for each brain/memory test.
+Cognitive_Metrics,user_id,int,YES,The ID of the person who took the test.
+Cognitive_Metrics,attention_span_score,int,YES,A score showing how long the user can stay focused.
+Cognitive_Metrics,memory_recall_accuracy,decimal,YES,How accurate the user’s memory is (percentage or ratio).
+Cognitive_Metrics,reaction_time_ms,int,YES,How fast the user reacts (in milliseconds).
+Cognitive_Metrics,test_date,date,YES,The date the test was taken.
+Content_Interests,interest_id,int,NO,A unique ID for the user's interest record.
+Content_Interests,user_id,int,YES,The user’s ID.
+Content_Interests,primary_category,varchar,YES,The main topic the user likes to watch or read.
+Content_Interests,is_educational_content,bit,YES,"Is it for learning? (1 = Yes, 0 = No)."
+Content_Interests,daily_video_count,int,YES,How many videos the user watches every day.
+Digital_Consumption,session_id,int,NO,A unique ID for each time the user uses the platform.
+Digital_Consumption,user_id,int,YES,The user’s ID.
+Digital_Consumption,platform_name,nvarchar,YES,The name of the app (like YouTube or TikTok).
+Digital_Consumption,content_format,varchar,YES,"Type of content (video, photo, text, etc.)."
+Digital_Consumption,daily_usage_minutes,int,YES,Total minutes spent on the app per day.
+Digital_Consumption,scrolling_speed_index,int,YES,A score showing how fast the user scrolls through content.
+Financial_Metrics,finance_id,int,NO,A unique ID for the money transaction record.
+Financial_Metrics,user_id,int,YES,The user’s ID.
+Financial_Metrics,in_app_purchases_usd,decimal,YES,Money spent inside the app in US Dollars.
+Financial_Metrics,impulse_buying_frequency,int,YES,How often the user buys things quickly without thinking.
+Performance_Metrics,perf_id,int,NO,A unique ID for the school or work performance record.
+Performance_Metrics,user_id,int,YES,The user’s ID.
+Performance_Metrics,gpa_or_rating,decimal,YES,The overall grade or performance score.
+Performance_Metrics,missed_deadlines_count,int,YES,Number of times the user was late for work or tasks.
+Performance_Metrics,focus_during_work_score,int,YES,A score for how well the user focuses while working.
+Physical_Health,physical_id,int,NO,A unique ID for the health record.
+Physical_Health,user_id,int,YES,The user’s ID.
+Physical_Health,eye_strain_level,int,YES,How much the user’s eyes feel tired.
+Physical_Health,neck_back_pain,bit,YES,"Does the user have neck or back pain? (1 = Yes, 0 = No)."
+Physical_Health,daily_steps,int,YES,The number of steps the user walks each day.
+Psychological_State,entry_id,int,NO,A unique ID for the mental health record.
+Psychological_State,user_id,int,YES,The user’s ID.
+Psychological_State,anxiety_level,int,YES,How stressed/anxious the user feels (1-10 scale).
+Psychological_State,loneliness_score,int,YES,A score for how lonely the user feels.
+Psychological_State,boredom_tolerance,int,YES,How well the user can handle being bored.
+Psychological_State,mood_rating,varchar,YES,How the user feels today (text or number).
+Sleep_Details,sleep_detail_id,int,NO,A unique ID for the sleep record.
+Sleep_Details,user_id,int,YES,The user’s ID.
+Sleep_Details,latency_to_sleep_minutes,int,YES,How many minutes it takes to fall asleep.
+Sleep_Details,night_awakenings,int,YES,How many times the user wakes up during the night.
+Sleep_Details,phone_before_sleep_minutes,int,YES,Minutes spent on the phone right before sleeping.
+Social_Impact,social_id,int,NO,A unique ID for the social life record.
+Social_Impact,user_id,int,YES,The user’s ID.
+Social_Impact,face_to_face_interaction_hours,decimal,YES,Hours spent talking to people in real life.
+Social_Impact,social_anxiety_level,int,YES,How nervous the user feels in social situations.
+Social_Impact,family_conflicts_score,int,YES,A score for how many problems or fights occur at home.
+Users,user_id,int,NO,A unique ID for the user.
+Users,age,int,NO,How old the user is.
+Users,gender,varchar,YES,The user's gender (Male/Female).
+Users,occupation,nvarchar,YES,The user’s current job or role.
+Users,avg_sleep_hours,decimal,YES,Average hours the user sleeps every day.
+Users,created_at,datetime,YES,The date the account was created.
