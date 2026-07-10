@@ -1,0 +1,12 @@
+Best model: RandomForest
+
+              precision    recall  f1-score   support
+
+     Healthy      0.987     0.982     0.984       609
+      Casual      0.830     0.869     0.849        84
+    Advanced      0.790     0.897     0.840       126
+    Critical      0.945     0.851     0.895       181
+
+    accuracy                          0.938      1000
+   macro avg      0.888     0.900     0.892      1000
+weighted avg      0.941     0.938     0.939      1000
