@@ -311,8 +311,13 @@ Neuro-Digital-Analytics/
 │   ├── Data_Dictionry.csv            # Column-level data dictionary
 │   └── Final Project Proposal Form.docx
 │
-└── chatbot/                          # Placeholder (see AI Chatbot section)
-```
+└── chatbot/                      # Flutter AI Chatbot
+│   ├── lib/
+│   ├── backend/
+│   ├── android/
+│   ├── assets/
+│   ├── pubspec.yaml
+│   └── README.md
 
 <br>
 
@@ -417,11 +422,71 @@ The `machine_learning/streamlit_app.py` application allows anyone to enter 7 dai
 
 <br>
 
-## AI Chatbot
+### AI Chatbot
 
-**Status:** Under Development
+The repository includes an AI-powered analytics chatbot built with **Flutter**, **Flask**, **Google Gemini**, and **SQL Server**.
 
-The `chatbot/` directory is a placeholder for a planned conversational interface. Documentation will be added when the module is implemented.
+The chatbot allows users to ask natural language questions about the Brain Rot Analytics dataset without writing SQL. It converts user questions into safe SQL queries using Gemini, validates the generated query, executes it against the SQL Server database, and automatically chooses the most suitable visualization.
+
+### Features
+
+- Natural language analytics (English & Arabic)
+- AI-powered SQL generation using Google Gemini
+- Intent classification to reject unrelated questions
+- SQL safety validation before execution
+- Automatic chart selection
+  - KPI
+  - Bar Chart
+  - Line Chart
+  - Scatter Plot
+  - Table
+- AI-generated insights for every response
+- Flutter mobile interface following MVVM architecture
+- Flask REST API backend
+- Provider state management
+- Loading, error, and retry states
+
+### Chatbot Architecture
+
+```
+Flutter App
+      │
+      ▼
+Provider (MVVM)
+      │
+      ▼
+Flask REST API
+      │
+      ▼
+Google Gemini
+      │
+Generate SQL + Insight
+      │
+      ▼
+SQL Validation
+      │
+      ▼
+SQL Server
+      │
+      ▼
+Query Results
+      │
+      ▼
+Automatic Chart Selection
+      │
+      ▼
+Flutter Visualization
+```
+
+### Technologies
+
+- Flutter
+- Provider
+- Flask
+- Google Gemini API
+- SQL Server
+- SQLAlchemy
+- Pandas
 
 <br>
 
