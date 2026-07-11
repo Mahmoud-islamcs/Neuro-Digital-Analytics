@@ -17,8 +17,7 @@ def layout():
     return html.Div([
         html.Div([
             html.H2("Executive Summary", className="page-title"),
-            html.P("A real-time pulse on student attention, wellbeing, and social-media behavior.",
-                   className="page-subtitle"),
+            html.P("A real-time pulse on student attention, wellbeing, and social-media behavior.",className="page-subtitle"),
         ], className="page-header"),
 
         html.Div(id="home-kpis"),
@@ -48,19 +47,14 @@ def update_home_kpis(data):
     cards = [
         kpi_card("Activity Records", f"{len(df):,}", "bi bi-database-fill", COLORS["primary"]),
         kpi_card("Unique Users", f"{df['UserKey'].nunique():,}", "bi bi-people-fill", COLORS["accent"]),
-        kpi_card("Avg Wellbeing Score", f"{df['Wellbeing_Score'].mean():.1f}", "bi bi-heart-fill",
-                 COLORS["green"], suffix="/100"),
-        kpi_card("Avg Brain Rot Exposure", f"{df['Brainrot_Exposure_Score'].mean():.1f}",
-                 "bi bi-cpu-fill", COLORS["red"], suffix="/100"),
+        kpi_card("Avg Wellbeing Score", f"{df['Wellbeing_Score'].mean():.1f}", "bi bi-heart-fill",COLORS["green"], suffix="/100"),
+        kpi_card("Avg Brain Rot Exposure", f"{df['Brainrot_Exposure_Score'].mean():.1f}","bi bi-cpu-fill", COLORS["red"], suffix="/100"),
         kpi_card("Healthy Users", f"{healthy_pct:.1f}%", "bi bi-shield-check", COLORS["green"]),
         kpi_card("Critical Users", f"{critical_pct:.1f}%", "bi bi-exclamation-triangle", COLORS["red"]),
         kpi_card("Avg Study Hours", f"{df['Study_Hours'].mean():.0f}h", "bi bi-book-fill", COLORS["amber"]),
-        kpi_card("Avg Reels / Day", f"{df['Total_Reels_Watched'].mean():.0f}", "bi bi-phone-fill",
-                 COLORS["pink"]),
-        kpi_card("Avg Focus Sessions", f"{df['Focus_Sessions_Count'].mean():.0f}", "bi bi-bullseye",
-                 COLORS["primary_soft"]),
-        kpi_card("Avg Short-Content %", f"{df['Short_Content_Percentage'].mean()*100:.0f}%",
-                 "bi bi-collection-play-fill", COLORS["accent"]),
+        kpi_card("Avg Reels / Day", f"{df['Total_Reels_Watched'].mean():.0f}", "bi bi-phone-fill",COLORS["pink"]),
+        kpi_card("Avg Focus Sessions", f"{df['Focus_Sessions_Count'].mean():.0f}", "bi bi-bullseye",COLORS["primary_soft"]),
+        kpi_card("Avg Short-Content %", f"{df['Short_Content_Percentage'].mean()*100:.0f}%","bi bi-collection-play-fill", COLORS["accent"]),
         kpi_card("Top Region", top_region, "bi bi-geo-alt-fill", COLORS["green"]),
         kpi_card("Avg Coffee / Day", f"{df['Coffee_Consumed_Per_Day'].mean():.0f}", "bi bi-cup-hot-fill", "#c084fc"),
     ]
