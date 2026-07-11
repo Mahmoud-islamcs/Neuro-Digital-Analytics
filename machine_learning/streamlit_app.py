@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import time
 
 from utils import (
     load_raw_data,
@@ -35,23 +36,23 @@ st.markdown(
     #     color: #F5F7FA;
     # }
 
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0B0E14 0%, #10131C 100%);
-        border-right: 1px solid rgba(255,255,255,0.08);
-    }
-    section[data-testid="stSidebar"] * {
-        color: #F5F7FA !important;
-    }
+    # /* Sidebar */
+    # section[data-testid="stSidebar"] {
+    #     background: linear-gradient(180deg, #0B0E14 0%, #10131C 100%);
+    #     border-right: 1px solid rgba(255,255,255,0.08);
+    # }
+    # section[data-testid="stSidebar"] * {
+    #     color: #F5F7FA !important;
+    # }
 
-    /* Headings */
-    h1, h2, h3 {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-    }
-    p, span, label, .stMarkdown {
-        color: #94A3B8;
-    }
+    # /* Headings */
+    # h1, h2, h3 {
+    #     color: #FFFFFF !important;
+    #     font-weight: 800 !important;
+    # }
+    # p, span, label, .stMarkdown {
+    #     color: #94A3B8;
+    # }
 
     /* Glass Card */
     .glass-card {
@@ -234,6 +235,7 @@ if page == "Predict":
 
     if predict_clicked:
         with st.spinner("Analyzing your data..."):
+            time.sleep(1.5) 
             input_df = pd.DataFrame(
                 [
                     {
