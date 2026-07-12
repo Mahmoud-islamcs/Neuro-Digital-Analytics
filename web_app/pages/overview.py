@@ -214,7 +214,7 @@ def summary_table(data):
         css=[
             {
                 "selector": ".dash-spreadsheet tr:hover td, .dash-spreadsheet td:hover",
-                "rule": "background-color: #1f2331 !important; color: #ffffff !important;"
+                "rule": "background-color: var(--table-row-hover) !important; color: var(--text) !important;"
             }
         ],
         style_table={"overflowX": "auto"},

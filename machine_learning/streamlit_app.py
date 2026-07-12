@@ -30,29 +30,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    # /* Overall app background */
-    # .stApp {
-    #     background: linear-gradient(160deg, #0B0E14 0%, #0F1420 100%);
-    #     color: #F5F7FA;
-    # }
-
-    # /* Sidebar */
-    # section[data-testid="stSidebar"] {
-    #     background: linear-gradient(180deg, #0B0E14 0%, #10131C 100%);
-    #     border-right: 1px solid rgba(255,255,255,0.08);
-    # }
-    # section[data-testid="stSidebar"] * {
-    #     color: #F5F7FA !important;
-    # }
-
-    # /* Headings */
-    # h1, h2, h3 {
-    #     color: #FFFFFF !important;
-    #     font-weight: 800 !important;
-    # }
-    # p, span, label, .stMarkdown {
-    #     color: #94A3B8;
-    # }
 
     /* Glass Card */
     .glass-card {
@@ -195,7 +172,8 @@ with st.sidebar:
     with st.container():
         st.write(f"**Model:** {best_model_name}")
         st.write(f"**Records:** {len(df):,}")
-
+    st.markdown("<hr style='border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+    st.markdown("Made by [Mahmoud Islam](https://www.linkedin.com/in/mahmoud-islam-analytics/)", unsafe_allow_html=True)
 
 
 # PAGE 1: PREDICT
@@ -211,6 +189,7 @@ if page == "Predict":
     col1, col2 = st.columns(2)
     with col1:
         reels = st.slider("Daily Short-Form Videos Watched (Reels/Shorts/TikTok)", 0, 270, 60)
+        coffee = st.slider("Daily Caffeinated Drinks Consumed", 0, 10, 2)
         device = st.selectbox("Primary Device Used", ["Smartphone", "Tablet", "PC"])
         q_col, a_col = st.columns([2, 1])  
         with q_col:
@@ -222,8 +201,8 @@ if page == "Predict":
         study_hours = st.slider("Daily Effective Study/Productivity Hours", 0.0, 11.0, 4.0, step=0.5)
         focus_sessions = st.slider("Daily Deep Focus Sessions (Uninterrupted)", 0, 11, 4)
         age = st.number_input("Age", min_value=8, max_value=25, value=20, step=1)
-        coffee = st.slider("Daily Caffeinated Drinks Consumed", 0, 10, 2)
-
+        
+    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     predict_clicked = st.button(

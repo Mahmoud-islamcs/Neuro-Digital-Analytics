@@ -230,19 +230,19 @@ def users_table(data):
         css=[
             {
                 "selector": ".dash-spreadsheet tr:hover td, .dash-spreadsheet td:hover",
-                "rule": "background-color: #1f2331 !important; color: #ffffff !important;"
+                "rule": "background-color: var(--table-row-hover) !important; color: var(--text) !important;"
             },
             {
                 "selector": ".dash-filter input",
-                "rule": "background-color: #151a29 !important; color: var(--text) !important; border: 1px solid var(--surface-border) !important; border-radius: 6px !important; padding: 4px 8px !important;"
+                "rule": "background-color: var(--input-bg) !important; color: var(--text) !important; border: 1px solid var(--surface-border) !important; border-radius: 6px !important; padding: 4px 8px !important;"
             },
             {
                 "selector": ".export",
-                "rule": "background-color: #7c5cff !important; color: white !important; border: none !important; border-radius: 6px !important; padding: 6px 16px !important; font-weight: 600 !important; cursor: pointer !important; margin-bottom: 12px !important; transition: background 0.2s;"
+                "rule": "background: linear-gradient(135deg, var(--primary), var(--primary-soft)) !important; color: white !important; border: none !important; border-radius: 6px !important; padding: 6px 16px !important; font-weight: 600 !important; cursor: pointer !important; margin-bottom: 12px !important; transition: filter 0.2s, box-shadow 0.2s;"
             },
             {
                 "selector": ".export:hover",
-                "rule": "background-color: #6346d1 !important;"
+                "rule": "filter: brightness(1.04); box-shadow: 0 8px 18px rgba(124,92,255,0.18);"
             }
         ],
         style_table={"overflowX": "auto"},

@@ -20,10 +20,10 @@
       menuBg: "#1C212E", // deep charcoal (never pure black) for hover/menus
     },
     light: {
-      text: "#20242C", // near-black slate, softer than pure #000
-      textDim: "#6B7280", // neutral gray, WCAG-AA on off-white backgrounds
-      grid: "rgba(15, 23, 42, 0.08)", // subtle cool-gray gridlines
-      border: "rgba(15, 23, 42, 0.12)", // soft border for hover/menu edges
+      text: "#172033", // near-black slate, softer than pure #000
+      textDim: "#5D687B", // neutral gray, WCAG-AA on off-white backgrounds
+      grid: "rgba(17, 24, 39, 0.095)", // subtle cool-gray gridlines
+      border: "#D8E0EB", // soft border for hover/menu edges
       menuBg: "#FFFFFF", // clean card background for hover labels
     },
   };
@@ -48,13 +48,22 @@
   // Sequential scale for heatmaps / continuous color axes (single-hue ramp,
   // reads well on both dark and light canvases since it's driven by opacity
   // rather than by lightness alone).
-  const SEQUENTIAL_COLORSCALE = [
-    [0, "#12315A"],
-    [0.25, "#20548C"],
-    [0.5, "#3B79B5"],
-    [0.75, "#6FA3D6"],
-    [1, "#BFDCF5"],
-  ];
+  const SEQUENTIAL_COLORSCALES = {
+    dark: [
+      [0, "#12315A"],
+      [0.25, "#20548C"],
+      [0.5, "#3B79B5"],
+      [0.75, "#6FA3D6"],
+      [1, "#BFDCF5"],
+    ],
+    light: [
+      [0, "#EAF2FF"],
+      [0.25, "#BFD8F4"],
+      [0.5, "#79A8D8"],
+      [0.75, "#3F7DB6"],
+      [1, "#1E4F82"],
+    ],
+  };
 
   function getShell() {
     return document.getElementById("app-shell");
@@ -108,11 +117,89 @@
       "scene.yaxis.gridcolor": grid,
       "scene.zaxis.color": textDim,
       "scene.zaxis.gridcolor": grid,
-      "coloraxis.colorscale": SEQUENTIAL_COLORSCALE,
+      "coloraxis.colorscale": SEQUENTIAL_COLORSCALES[theme] || SEQUENTIAL_COLORSCALES.dark,
       "hoverlabel.bgcolor": menuBg,
       "hoverlabel.bordercolor": border,
       "hoverlabel.font.color": text,
     };
+  }
+
+  function hasOutsideText(trace) {
+    const position = trace && trace.textposition;
+    if (Array.isArray(position)) {
+      return position.some(function (value) {
+        return String(value).indexOf("outside") !== -1;
+      });
+    }
+    return String(position || "").indexOf("outside") !== -1;
+  }
+
+  function applyTraceTheme(graph, theme) {
+    if (!graph || !window.Plotly || !graph.data) {
+      return Promise.resolve();
+    }
+
+    const palette = PALETTES[theme] || PALETTES.dark;
+    const text = cssVar("--text", palette.text);
+    const promises = [];
+
+    graph.data.forEach(function (trace, index) {
+      const update = {};
+      const outsideText = hasOutsideText(trace);
+
+      if (outsideText) {
+        if (!trace.textfont || trace.textfont.color !== text) {
+          update["textfont.color"] = text;
+        }
+        if (!trace.outsidetextfont || trace.outsidetextfont.color !== text) {
+          update["outsidetextfont.color"] = text;
+        }
+      }
+
+      if (trace && trace.type === "parcats") {
+        if (!trace.labelfont || trace.labelfont.color !== text) {
+          update["labelfont.color"] = text;
+        }
+        if (!trace.tickfont || trace.tickfont.color !== text) {
+          update["tickfont.color"] = text;
+        }
+      }
+
+      if (Object.keys(update).length) {
+        promises.push(window.Plotly.restyle(graph, update, [index]));
+      }
+    });
+
+    return Promise.all(promises);
+  }
+
+  function applyAnnotationTheme(graph, theme) {
+    if (!graph || !window.Plotly) {
+      return Promise.resolve();
+    }
+
+    const palette = PALETTES[theme] || PALETTES.dark;
+    const textDim = cssVar("--text-dim", palette.textDim);
+    const annotations = (graph.layout && graph.layout.annotations) || [];
+    const update = {};
+
+    annotations.forEach(function (annotation, index) {
+      if (!annotation.font || annotation.font.color !== textDim) {
+        update["annotations[" + index + "].font.color"] = textDim;
+      }
+    });
+
+    if (!Object.keys(update).length) {
+      return Promise.resolve();
+    }
+    return window.Plotly.relayout(graph, update);
+  }
+
+  function applyGraphDetailsTheme(graph, theme) {
+    return applyTraceTheme(graph, theme)
+      .then(function () {
+        return applyAnnotationTheme(graph, theme);
+      });
   }
 
   function needsTheme(graph, layout, theme) {
@@ -133,11 +220,23 @@
     const theme = getTheme();
     const layout = graphThemeLayout(theme);
     if (!needsTheme(graph, layout, theme)) {
+      graph.__brainrotThemeApplying = true;
+      applyGraphDetailsTheme(graph, theme)
+        .then(function () {
+          graph.__brainrotTheme = theme;
+        })
+        .catch(function () {})
+        .finally(function () {
+          graph.__brainrotThemeApplying = false;
+        });
       return;
     }
 
     graph.__brainrotThemeApplying = true;
     window.Plotly.relayout(graph, layout)
+      .then(function () {
+        return applyGraphDetailsTheme(graph, theme);
+      })
       .then(function () {
         graph.__brainrotTheme = theme;
       })

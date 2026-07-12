@@ -85,13 +85,13 @@ def layout():
                     css=[
                         {
                             "selector": ".dash-spreadsheet tr:hover td, .dash-spreadsheet td:hover",
-                            "rule": "background-color: #1f2331 !important; color: #ffffff !important;"
+                            "rule": "background-color: var(--table-row-hover) !important; color: var(--text) !important;"
                         }
                     ],
                     
-                    style_header={"backgroundColor": "#141926", "color": "#EAEDF3", "fontWeight": "600"},
-                    style_cell={"backgroundColor": "rgba(255,255,255,0.02)", "color": "#EAEDF3",
-                               "border": "1px solid rgba(255,255,255,0.06)", "padding": "8px"},
+                    style_header={"backgroundColor": "var(--table-header)", "color": "var(--text)", "fontWeight": "600"},
+                    style_cell={"backgroundColor": "transparent", "color": "var(--text)",
+                               "border": "1px solid var(--surface-border)", "padding": "8px"},
                     style_table={"overflowX": "auto"},
                 )
             ]), className="about-card"), md=12),
