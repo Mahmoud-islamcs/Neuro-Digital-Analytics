@@ -21,12 +21,6 @@ STAGE_COLORS = {
     "Critical": "#F43F5E",
 }
 
-STAGE_ICONS = {
-    "Healthy": "",
-    "Casual": "",
-    "Advanced": "",
-    "Critical": "",
-}
 
 STAGE_LABELS_AR = {
     "Healthy": "Healthy",

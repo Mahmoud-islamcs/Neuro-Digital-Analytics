@@ -13,7 +13,6 @@ from utils import (
     align_columns,
     STAGE_ORDER,
     STAGE_COLORS,
-    STAGE_ICONS,
     STAGE_LABELS_AR,
     STAGE_RECOMMENDATIONS_AR,
 )
@@ -152,7 +151,7 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
-    st.markdown("<hr style='border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+    # st.markdown("<hr style='border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
 
     if "page" not in st.session_state:
         st.session_state.page = "Predict"
@@ -169,9 +168,9 @@ with st.sidebar:
     page = st.session_state.page
 
     st.markdown("<hr style='border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
-    with st.container():
-        st.write(f"**Model:** {best_model_name}")
-        st.write(f"**Records:** {len(df):,}")
+    # with st.container():
+    st.write(f"**Model:** {best_model_name}")
+    st.write(f"**Records:** {len(df):,}")
     st.markdown("<hr style='border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
     st.markdown("Made by [Mahmoud Islam](https://www.linkedin.com/in/mahmoud-islam-analytics/)", unsafe_allow_html=True)
 
@@ -241,7 +240,6 @@ if page == "Predict":
             pred_stage = STAGE_ORDER[pred_int]
 
             color = STAGE_COLORS[pred_stage]
-            icon = STAGE_ICONS[pred_stage]
             label_ar = STAGE_LABELS_AR[pred_stage]
             recommendation = STAGE_RECOMMENDATIONS_AR[pred_stage]
 
@@ -249,7 +247,7 @@ if page == "Predict":
             f"""
             <div class='result-card' style='background: linear-gradient(135deg, {color}22, {color}08); border-color:{color}55;'>
                 <div class='result-title'>Current Digital Distraction Stage</div>
-                <div class='result-stage' style='color:{color};'>{icon} {label_ar}</div>
+                <div class='result-stage' style='color:{color};'>{label_ar}</div>
             </div>
             """,
             unsafe_allow_html=True,
