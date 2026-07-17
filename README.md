@@ -34,11 +34,15 @@ From a modeled star schema and Jupyter-based EDA, to an executive **Power BI das
 
 **Neuro Digital Analytics** investigates how short-form social media consumption — reels, clips, and short videos — affects student cognitive performance, study productivity, and self-reported wellbeing. The project moves through the complete analytics lifecycle: raw data cleaned and structured into a relational star schema, explored through Jupyter notebooks, and delivered through three production-facing analytics products built on the same underlying dataset:
 
-| Priority | Deliverable | Purpose |
+---
+##  Project Deliverables
+
+Deliverable | Purpose | Live Demo |
 |---|---|---|
-| **1** | **Power BI Dashboard** | Executive-grade BI reporting for stakeholders — the primary analytical deliverable of the project |
-| **2** | **Streamlit ML Prediction App** | A trained classification model surfaced through an interactive, user-facing prediction tool |
-| **3** | **AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |
+**Power BI Dashboard** | Executive-grade BI reporting for stakeholders — the primary analytical deliverable of the project |  [View Dashboard](https://app.powerbi.com/groups/07cb4191-b747-423b-b7b7-fdf21a0f55bc/reports/6da0176b-4e95-4349-9a00-efd328a6733d?ctid=dee1ed73-19ca-4ce0-8066-8261fbabbeaa&pbi_source=linkShare) |
+**Streamlit ML Prediction App** | A trained classification model surfaced through an interactive, user-facing prediction tool |  [Launch App](https://brainrot-analytics-egy.streamlit.app/) |
+**AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Under Development* |
+**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  [Open Dashboard](https://a58ad2a9-2b04-4b8b-9e4f-7d63c67e53c5.plotly.app/insights) |
 
 A supplementary multi-page **Plotly Dash** web application is also included, offering a fully custom-built alternative front end over the same data model.
 
