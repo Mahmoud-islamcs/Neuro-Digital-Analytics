@@ -41,8 +41,8 @@ Deliverable | Purpose | Live Demo |
 |---|---|---|
 **Power BI Dashboard** | Executive-grade BI reporting for stakeholders — the primary analytical deliverable of the project |  [View Dashboard](https://app.powerbi.com/groups/07cb4191-b747-423b-b7b7-fdf21a0f55bc/reports/6da0176b-4e95-4349-9a00-efd328a6733d?ctid=dee1ed73-19ca-4ce0-8066-8261fbabbeaa&pbi_source=linkShare) |
 **Streamlit ML Prediction App** | A trained classification model surfaced through an interactive, user-facing prediction tool |  [Launch App](https://brainrot-analytics-egy.streamlit.app/) |
-**AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Available Locally* |
-**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  *Available Locally* |
+**AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Under Development* |
+**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  [Open Dashboard](https://a58ad2a9-2b04-4b8b-9e4f-7d63c67e53c5.plotly.app/insights) |
 
 A supplementary multi-page **Plotly Dash** web application is also included, offering a fully custom-built alternative front end over the same data model.
 
