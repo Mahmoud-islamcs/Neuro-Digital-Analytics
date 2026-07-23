@@ -1,0 +1,31 @@
+from pages import (
+    home,
+    overview,
+    users,
+    mental_health,
+    social_media,
+    study,
+    brain_rot,
+    correlation,
+    cohort,
+    simulator,
+    export_center,
+    insights,
+    about,
+)
+
+__all__ = [
+    "home",
+    "overview",
+    "users",
+    "mental_health",
+    "social_media",
+    "study",
+    "brain_rot",
+    "correlation",
+    "cohort",
+    "simulator",
+    "export_center",
+    "insights",
+    "about",
+]

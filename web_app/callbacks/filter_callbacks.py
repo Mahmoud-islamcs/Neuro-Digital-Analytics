@@ -1,10 +1,5 @@
-"""
-The single source of truth for filtering: reads every filter widget in the
-global filter bar, applies them to the master dataframe, and pushes the
-resulting filtered slice (as JSON) into dcc.Store(id='global-filtered-data').
-Every page's charts subscribe to that store as their only Input.
-"""
 from dash import callback, Input, Output, State, ctx, html
+import dash_bootstrap_components as dbc
 import pandas as pd
 
 from data.loader import get_master_df, apply_filters, get_filter_options
@@ -24,11 +19,20 @@ from data.loader import get_master_df, apply_filters, get_filter_options
 def apply_global_filters(n_apply, n_reset, age_group, region, device, stage, wellbeing,
                           coffee, smoking, study_hours, start_date, end_date):
     df = get_master_df()
+    opt = get_filter_options()
 
     triggered = ctx.triggered_id
     if triggered == "f-reset":
         filtered = df
-        summary = html.Span([html.I(className="bi bi-check-circle me-1"), "Showing all data (filters reset)"])
+        summary = html.Div([
+            html.Span([
+                html.I(className="bi bi-funnel me-1 text-secondary"),
+                "All Data (0 Active Filters)",
+                html.Span(" • ", className="mx-1 text-muted"),
+                html.I(className="bi bi-database me-1 text-muted"),
+                f"{len(df):,} total records"
+            ], className="filter-status-pill")
+        ], className="d-inline-flex align-items-center")
         return filtered.to_json(date_format="iso", orient="split"), summary
 
     f = {
@@ -44,16 +48,36 @@ def apply_global_filters(n_apply, n_reset, age_group, region, device, stage, wel
     filtered = apply_filters(df, f)
 
     active_bits = []
+    active_count = 0
     for label, val in [("Age", age_group), ("Region", region), ("Device", device),
                         ("Stage", stage), ("Wellbeing", wellbeing), ("Coffee", coffee),
                         ("Smoking", smoking)]:
         if val:
             active_bits.append(f"{label}: {', '.join(val)}")
-    summary_text = " • ".join(active_bits) if active_bits else "No filters applied"
-    summary = html.Span([
-        html.I(className="bi bi-funnel me-1"),
-        f"{len(filtered):,} of {len(df):,} records — {summary_text}",
-    ])
+            active_count += 1
+
+    if study_hours and (study_hours[0] > opt["study_hours_min"] or study_hours[1] < opt["study_hours_max"]):
+        active_count += 1
+        active_bits.append(f"Study: {study_hours[0]:.1f}h - {study_hours[1]:.1f}h")
+
+    if start_date and end_date and (pd.to_datetime(start_date) > pd.to_datetime(opt["date_min"]) or pd.to_datetime(end_date) < pd.to_datetime(opt["date_max"])):
+        active_count += 1
+        active_bits.append("Custom Date Range")
+
+    summary_text = " • ".join(active_bits) if active_bits else "No active filters"
+    badge_label = f"{active_count} Active Filter{'s' if active_count != 1 else ''}" if active_count > 0 else "All Data"
+
+    summary = html.Div([
+        html.Span([
+            html.I(className="bi bi-funnel-fill me-1 text-primary" if active_count > 0 else "bi bi-funnel me-1"),
+            badge_label,
+            html.Span(" • ", className="mx-1 text-muted"),
+            html.I(className="bi bi-database-check me-1 text-success" if active_count > 0 else "bi bi-database me-1"),
+            f"{len(filtered):,} of {len(df):,} records ({len(filtered)/len(df)*100:.1f}%)",
+            f" — {summary_text}" if active_bits else ""
+        ], className="filter-status-pill")
+    ], className="d-inline-flex align-items-center")
+
     return filtered.to_json(date_format="iso", orient="split"), summary
 
 
@@ -72,10 +96,21 @@ def reset_filter_widgets(n):
 
 
 @callback(
-    Output("filters-collapse", "is_open"),
+    Output("filters-collapse", "className"),
+    Output("filters-collapse-btn", "children"),
     Input("filters-collapse-btn", "n_clicks"),
-    State("filters-collapse", "is_open"),
+    State("filters-collapse", "className"),
     prevent_initial_call=True,
 )
-def toggle_filters(n, is_open):
-    return not is_open
+def toggle_filters(n, current_class):
+    current = current_class or "filter-container-collapsible"
+    if "filter-container-collapsed" in current:
+        return "filter-container-collapsible", [
+            html.I(className="bi bi-sliders me-2"),
+            html.Span("Filter Command Center")
+        ]
+    else:
+        return "filter-container-collapsible filter-container-collapsed", [
+            html.I(className="bi bi-funnel me-2"),
+            html.Span("Filter Command Center")
+        ]

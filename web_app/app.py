@@ -1,9 +1,3 @@
-"""
-Brain Rot Analytics -- main application entry point.
-
-Run with:  python app.py
-Then open: http://127.0.0.1:8050
-"""
 import dash
 from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
@@ -25,8 +19,7 @@ app = Dash(
     update_title=None,
 )
 
-# app = dash.Dash(__name__, external_stylesheets=[...])     problem here 
-server = app.server  # for gunicorn / wsgi deployment
+server = app.server
 
 app.layout = html.Div([
     dcc.Location(id="url", refresh=False),
@@ -56,8 +49,8 @@ app.layout = html.Div([
                 **{"aria-label": "Back to top"}),
 ], className="app-shell theme-dark", id="app-shell", **{"data-bs-theme": "dark"})
 
-# Register callback modules (they attach to `app` via the @callback decorator).
-from callbacks import filter_callbacks, ui_callbacks  # noqa: E402,F401
+import pages
+from callbacks import filter_callbacks, ui_callbacks
 
 if __name__ == "__main__":
     import os

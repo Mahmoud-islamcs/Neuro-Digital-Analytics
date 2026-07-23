@@ -1,11 +1,3 @@
-"""
-Automatic insight generation.
-
-Every insight here is computed directly from the filtered dataframe --
-no hardcoded numbers. Each rule compares two real slices of the data
-and only fires if there's a meaningful, non-trivial gap, so the
-Insights page doesn't fill up with noise on tiny filtered samples.
-"""
 import numpy as np
 from config.settings import COLORS
 
@@ -21,7 +13,6 @@ def generate_insights(df):
     if df is None or len(df) < 20:
         return insights
 
-    # 1. Screen time (reels) vs wellbeing --------------------------------
     median_reels = df["Total_Reels_Watched"].median()
     high = df[df["Total_Reels_Watched"] > median_reels]
     low = df[df["Total_Reels_Watched"] <= median_reels]
@@ -36,7 +27,6 @@ def generate_insights(df):
                          f"({low['Wellbeing_Score'].mean():.1f} vs {high['Wellbeing_Score'].mean():.1f})."),
             })
 
-    # 2. Sleep proxy: late-night activity vs wellbeing ----------------------
     if "Is_Late_Night_Label" in df:
         late = df[df["Is_Late_Night_Label"] == "Late-Night Activity"]
         day = df[df["Is_Late_Night_Label"] == "Daytime Activity"]
@@ -50,7 +40,6 @@ def generate_insights(df):
                              f"than during late-night sessions."),
                 })
 
-    # 3. Exam season vs brainrot exposure ------------------------------------
     if "Is_Exam_Season_Label" in df:
         exam = df[df["Is_Exam_Season_Label"] == "Exam Season"]
         reg = df[df["Is_Exam_Season_Label"] == "Regular"]
@@ -66,7 +55,6 @@ def generate_insights(df):
                              f"({reg['Brainrot_Exposure_Score'].mean():.1f})."),
                 })
 
-    # 4. Coffee level vs focus sessions --------------------------------------
     if "Coffee_Level" in df and df["Coffee_Level"].nunique() > 1:
         grp = df.groupby("Coffee_Level")["Focus_Sessions_Count"].mean().sort_values()
         if len(grp) >= 2:
@@ -80,7 +68,6 @@ def generate_insights(df):
                              f"{grp.iloc[0]:.1f} ({lo_lvl}) -- a {abs(diff):.1f}% gap."),
                 })
 
-    # 5. Study hours vs Brain Rot stage --------------------------------------
     if "Brainrot_Stage" in df:
         grp = df.groupby("Brainrot_Stage", observed=True)["Study_Hours"].mean()
         if "Healthy" in grp.index and "Critical" in grp.index:
@@ -93,7 +80,6 @@ def generate_insights(df):
                              f"vs {grp['Critical']:.1f}h/day for 'Critical' stage users ({abs(diff):.1f}% gap)."),
                 })
 
-    # 6. Short-content percentage vs attention span --------------------------
     if "Attention_Span_Level" in df:
         grp = df.groupby("Attention_Span_Level")["Short_Content_Percentage"].mean().sort_values()
         if len(grp) >= 2:
@@ -106,7 +92,6 @@ def generate_insights(df):
                              f"content on average, vs {grp.iloc[0]*100:.0f}% for '{grp.index[0]}' users."),
                 })
 
-    # 7. Weekend vs weekday reels --------------------------------------------
     if "Is_Weekend_Label" in df:
         we = df[df["Is_Weekend_Label"] == "Weekend"]["Total_Reels_Watched"].mean()
         wd = df[df["Is_Weekend_Label"] == "Weekday"]["Total_Reels_Watched"].mean()
@@ -119,7 +104,6 @@ def generate_insights(df):
                     "text": f"Users watch {abs(diff):.1f}% {'more' if diff>0 else 'fewer'} reels on weekends ({we:.0f}/day) than weekdays ({wd:.0f}/day).",
                 })
 
-    # 8. Region with highest average brainrot exposure -----------------------
     if "Region" in df and df["Region"].nunique() > 1:
         grp = df[df["Region"] != "Unknown"].groupby("Region")["Brainrot_Exposure_Score"].mean().sort_values(ascending=False)
         if len(grp) > 1:

@@ -1,4 +1,3 @@
-"""Reusable KPI card -- icon, big number, label, and optional delta."""
 import dash_bootstrap_components as dbc
 from dash import html
 
@@ -7,10 +6,6 @@ from config.settings import COLORS
 
 def kpi_card(title, value, icon, color=COLORS["primary"], suffix="", delta=None,
              spark_values=None, tooltip=None, card_id=None):
-    """
-    A single glassmorphism KPI tile.
-    delta: tuple (text, is_positive) e.g. ("+4.2% vs prev period", True)
-    """
     delta_el = None
     if delta:
         text, is_pos = delta
@@ -42,7 +37,6 @@ def kpi_card(title, value, icon, color=COLORS["primary"], suffix="", delta=None,
 
 
 def kpi_row(cards, cols=4):
-    """Lay out a list of kpi_card() elements in a responsive grid."""
     width = max(1, 12 // cols)
     return dbc.Row(
         [dbc.Col(c, xs=12, sm=6, md=width, className="mb-3") for c in cards],

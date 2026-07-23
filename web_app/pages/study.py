@@ -6,8 +6,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from utils.chart_helpers import style_fig, empty_state, guard
-from config.settings import COLORS, CATEGORICAL_SEQUENCE, STAGE_ORDER, STAGE_COLORS
+from utils.chart_helpers import (
+    style_fig, empty_state, guard, get_theme_tokens, get_stage_colors, get_categorical_sequence
+)
+from config.settings import STAGE_ORDER
 
 dash.register_page(__name__, path="/study", name="Study & Productivity", title="Study | Brain Rot Analytics")
 
@@ -39,39 +41,36 @@ def layout():
     ])
 
 
-@callback(Output("st-hours-density", "figure"), Input("global-filtered-data", "data"))
-def hours_density(data):
+@callback(
+    Output("st-hours-density", "figure"),
+    Input("global-filtered-data", "data"),
+    Input("theme-store", "data"),
+)
+def hours_density(data, theme):
+    theme = theme or "dark"
     df = pd.read_json(io.StringIO(data), orient="split") if data else pd.DataFrame()
     if guard(df):
-        return empty_state()
+        return empty_state(theme=theme)
+    
+    stage_colors = get_stage_colors(theme)
+    tokens = get_theme_tokens(theme)
+    
     fig = px.histogram(df, x="Study_Hours", color="Brainrot_Stage", nbins=25, marginal="rug",
-                        category_orders={"Brainrot_Stage": STAGE_ORDER}, color_discrete_map=STAGE_COLORS,
+                        category_orders={"Brainrot_Stage": STAGE_ORDER}, color_discrete_map=stage_colors,
                         histnorm="probability density")
     
+    mean_hours = df["Study_Hours"].mean()
+    fig.add_vline(x=mean_hours, line_dash="dash", line_color=tokens["amber"],
+                  annotation_text=f"Mean ({mean_hours:.1f}h)", annotation_position="top right",
+                  annotation_font=dict(color=tokens["amber"], size=11))
+
     fig.update_layout(
         title="Study Hours Density by Brain Rot Stage", 
         bargap=0.02,
-        hoverlabel=dict(
-            bgcolor="#1f2331",      
-            bordercolor="#7c5cff",    
-            font_size=13,             
-            font_color="#ffffff"       
-        )
     )
-    
-    fig.update_xaxes(
-        ticklabelstandoff=12,
-        title=dict(standoff=15),   
-        automargin=True
-    )
-    
-    fig.update_yaxes(
-        title=dict(standoff=25), 
-        ticklabelstandoff=12,     
-        automargin=True
-    )
-    
-    fig = style_fig(fig, height=380)
+    fig.update_xaxes(ticklabelstandoff=12, title=dict(standoff=15), automargin=True)
+    fig.update_yaxes(title=dict(standoff=25), ticklabelstandoff=12, automargin=True)
+    fig = style_fig(fig, theme=theme, height=380)
     fig.update_layout(
         showlegend=True,
         legend=dict(
@@ -83,46 +82,36 @@ def hours_density(data):
         ),
         margin=dict(l=85, r=120, t=65, b=65) 
     )
-    
     return fig
 
 
-@callback(Output("st-coffee-bar", "figure"), Input("global-filtered-data", "data"))
-def coffee_bar(data):
+@callback(
+    Output("st-coffee-bar", "figure"),
+    Input("global-filtered-data", "data"),
+    Input("theme-store", "data"),
+)
+def coffee_bar(data, theme):
+    theme = theme or "dark"
     df = pd.read_json(io.StringIO(data), orient="split") if data else pd.DataFrame()
     if guard(df):
-        return empty_state()
+        return empty_state(theme=theme)
+    
+    tokens = get_theme_tokens(theme)
     grp = df.groupby("Coffee_Level").agg(Avg_Study=("Study_Hours", "mean"),
                                          Avg_Focus=("Focus_Sessions_Count", "mean")).reset_index()
     fig = go.Figure()
     fig.add_trace(go.Bar(x=grp["Coffee_Level"], y=grp["Avg_Study"], name="Avg Study Hours",
-                          marker_color=COLORS["amber"]))
+                          marker_color=tokens["amber"]))
     fig.add_trace(go.Bar(x=grp["Coffee_Level"], y=grp["Avg_Focus"], name="Avg Focus Sessions",
-                          marker_color=COLORS["accent"]))
+                          marker_color=tokens["accent"]))
     
     fig.update_layout(
         title="Coffee Level vs Study Hours & Focus Sessions", 
         barmode="group",
-        
-        hoverlabel=dict(
-            bgcolor="#1f2331",      
-            bordercolor="#7c5cff",    
-            font_size=13,             
-            font_color="#ffffff"       
-        )
     )
-    
-    fig.update_xaxes(
-        ticklabelstandoff=12,
-        automargin=True
-    )
-    fig.update_yaxes(
-        ticklabelstandoff=12,
-        automargin=True
-    )
-    
-    fig = style_fig(fig, height=380)
-    
+    fig.update_xaxes(ticklabelstandoff=12, automargin=True)
+    fig.update_yaxes(ticklabelstandoff=12, automargin=True)
+    fig = style_fig(fig, theme=theme, height=380)
     fig.update_layout(
         showlegend=True,
         legend=dict(
@@ -134,40 +123,34 @@ def coffee_bar(data):
         ),
         margin=dict(l=70, r=150, t=65, b=65) 
     )
-    
     return fig
 
 
-@callback(Output("st-scatter-brainrot", "figure"), Input("global-filtered-data", "data"))
-def scatter_brainrot(data):
+@callback(
+    Output("st-scatter-brainrot", "figure"),
+    Input("global-filtered-data", "data"),
+    Input("theme-store", "data"),
+)
+def scatter_brainrot(data, theme):
+    theme = theme or "dark"
     df = pd.read_json(io.StringIO(data), orient="split") if data else pd.DataFrame()
     if guard(df):
-        return empty_state()
+        return empty_state(theme=theme)
     
+    tokens = get_theme_tokens(theme)
     fig = px.scatter(df, x="Study_Hours", y="Brainrot_Exposure_Score", color="Focus_Sessions_Count",
-                      color_continuous_scale=[[0, COLORS["red"]], [1, COLORS["green"]]], opacity=0.6)
+                      color_continuous_scale=[[0, tokens["red"]], [1, tokens["green"]]], opacity=0.6)
     
-    fig.update_layout(
-        title="Study Hours vs Brain Rot Exposure (color = Focus Sessions)",
-        
-        hoverlabel=dict(
-            bgcolor="#1f2331",      
-            bordercolor="#7c5cff",    
-            font_size=13,             
-            font_color="#ffffff"       
-        )
-    )
-    
-    fig.update_xaxes(
-        ticklabelstandoff=12,
-        title=dict(standoff=15),   
-        automargin=True
-    )
-    fig.update_yaxes(
-        ticklabelstandoff=12,
-        title=dict(standoff=15), 
-        automargin=True
-    )
+    fig.add_hline(y=60, line_dash="dot", line_color=tokens["red"],
+                  annotation_text="Critical Exposure Line (60)", annotation_position="top left",
+                  annotation_font=dict(color=tokens["red"], size=11))
+    fig.add_vline(x=4.0, line_dash="dash", line_color=tokens["green"],
+                  annotation_text="Target Study Benchmark (4h)", annotation_position="top right",
+                  annotation_font=dict(color=tokens["green"], size=11))
+
+    fig.update_layout(title="Study Hours vs Brain Rot Exposure (color = Focus Sessions)")
+    fig.update_xaxes(ticklabelstandoff=12, title=dict(standoff=15), automargin=True)
+    fig.update_yaxes(ticklabelstandoff=12, title=dict(standoff=15), automargin=True)
     
     fig.update_coloraxes(
         colorbar=dict(
@@ -177,61 +160,46 @@ def scatter_brainrot(data):
             xpad=15               
         )
     )
-    
-    fig = style_fig(fig, height=380)
-    
-    fig.update_layout(
-        margin=dict(l=85, r=110, t=65, b=65)
-    )
-    
+    fig = style_fig(fig, theme=theme, height=380)
+    fig.update_layout(margin=dict(l=85, r=110, t=65, b=65))
     return fig
 
 
-@callback(Output("st-exam-box", "figure"), Input("global-filtered-data", "data"))
-def exam_box(data):
+@callback(
+    Output("st-exam-box", "figure"),
+    Input("global-filtered-data", "data"),
+    Input("theme-store", "data"),
+)
+def exam_box(data, theme):
+    theme = theme or "dark"
     df = pd.read_json(io.StringIO(data), orient="split") if data else pd.DataFrame()
     if guard(df):
-        return empty_state()
+        return empty_state(theme=theme)
+    
+    tokens = get_theme_tokens(theme)
     fig = px.box(df, x="Is_Exam_Season_Label", y="Study_Hours", color="Is_Exam_Season_Label",
-                 color_discrete_sequence=[COLORS["accent"], COLORS["primary"]])
+                 color_discrete_sequence=[tokens["accent"], tokens["primary"]])
     
-    fig.update_layout(
-        title="Study Hours: Exam Season vs Regular Days", 
-        showlegend=False,
-        
-        hoverlabel=dict(
-            bgcolor="#1f2331",      
-            bordercolor="#7c5cff",    
-            font_size=13,             
-            font_color="#ffffff"       
-        )
-    )
-    
-    fig.update_xaxes(
-        ticklabelstandoff=12,
-        title=dict(standoff=15),   
-        automargin=True
-    )
-    fig.update_yaxes(
-        ticklabelstandoff=12,
-        title=dict(standoff=15),   
-        automargin=True
-    )
-    
-    fig = style_fig(fig, height=380)
-    
-    fig.update_layout(
-        margin=dict(l=75, r=20, t=65, b=65)
-    )
-    
+    fig.update_layout(title="Study Hours: Exam Season vs Regular Days", showlegend=False)
+    fig.update_xaxes(ticklabelstandoff=12, title=dict(standoff=15), automargin=True)
+    fig.update_yaxes(ticklabelstandoff=12, title=dict(standoff=15), automargin=True)
+    fig = style_fig(fig, theme=theme, height=380)
+    fig.update_layout(margin=dict(l=75, r=20, t=65, b=65))
     return fig
 
 
-@callback(Output("st-waterfall", "figure"), Input("global-filtered-data", "data"))
-def waterfall(data):
+@callback(
+    Output("st-waterfall", "figure"),
+    Input("global-filtered-data", "data"),
+    Input("theme-store", "data"),
+)
+def waterfall(data, theme):
+    theme = theme or "dark"
     df = pd.read_json(io.StringIO(data), orient="split") if data else pd.DataFrame()
     if guard(df):
-        return empty_state()
+        return empty_state(theme=theme)
+    
+    tokens = get_theme_tokens(theme)
     grp = df.groupby("Brainrot_Stage", observed=True)["Focus_Sessions_Count"].mean().reindex(STAGE_ORDER).dropna()
     diffs = grp.diff().fillna(grp.iloc[0])
     
@@ -239,42 +207,19 @@ def waterfall(data):
         x=grp.index, y=diffs.values, measure=["absolute"] + ["relative"] * (len(grp) - 1),
         text=[f"{v:.1f}" for v in grp.values],
         textposition="outside",      
-        
         textfont=dict(
             family="Inter, sans-serif",
             size=12,                
-            color="#ffffff"          
+            color=tokens["text"]
         ),
-        
-        decreasing=dict(marker=dict(color=COLORS["red"])),
-        increasing=dict(marker=dict(color=COLORS["green"])),
-        totals=dict(marker=dict(color=COLORS["primary"])),
+        decreasing=dict(marker=dict(color=tokens["red"])),
+        increasing=dict(marker=dict(color=tokens["green"])),
+        totals=dict(marker=dict(color=tokens["primary"])),
     ))
     
-    fig.update_layout(
-        title="Avg Focus Sessions Progression Across Brain Rot Stages",
-        
-        hoverlabel=dict(
-            bgcolor="#1f2331",      
-            bordercolor="#7c5cff",    
-            font_size=13,             
-            font_color="#ffffff"       
-        )
-    )
-    
-    fig.update_xaxes(
-        ticklabelstandoff=12,
-        automargin=True
-    )
-    fig.update_yaxes(
-        ticklabelstandoff=12,
-        automargin=True
-    )
-    
-    fig = style_fig(fig, height=380)
-    
-    fig.update_layout(
-        margin=dict(l=75, r=30, t=65, b=65)
-    )
-    
+    fig.update_layout(title="Avg Focus Sessions Progression Across Brain Rot Stages")
+    fig.update_xaxes(ticklabelstandoff=12, automargin=True)
+    fig.update_yaxes(ticklabelstandoff=12, automargin=True)
+    fig = style_fig(fig, theme=theme, height=380)
+    fig.update_layout(margin=dict(l=75, r=30, t=65, b=65))
     return fig

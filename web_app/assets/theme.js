@@ -2,52 +2,36 @@
   const APPLY_DELAY_MS = 60;
   const SCROLL_THRESHOLD = 240;
 
-  // ---------------------------------------------------------------------
-  // Color palettes
-  // Dark  -> inspired by GitHub Dark / VS Code Dark / Power BI Dark
-  // Light -> inspired by Power BI Light / Tableau / Microsoft Fabric
-  // These are only FALLBACK values used when the corresponding CSS custom
-  // property isn't defined on #app-shell. If your stylesheet defines
-  // --text / --text-dim / --grid / --surface-border / --menu-bg, those
-  // values win — this just makes the fallback path look professional too.
-  // ---------------------------------------------------------------------
   const PALETTES = {
     dark: {
-      text: "#E6E9EF", // soft near-white, not pure white (reduces eye strain)
-      textDim: "#9199A8", // muted slate for axis labels / secondary text
-      grid: "rgba(255, 255, 255, 0.06)", // faint gridlines, deep-charcoal friendly
-      border: "rgba(255, 255, 255, 0.12)", // subtle separators / hover borders
-      menuBg: "#1C212E", // deep charcoal (never pure black) for hover/menus
+      text: "#E6E9EF",
+      textDim: "#9199A8",
+      grid: "rgba(255, 255, 255, 0.06)",
+      border: "rgba(255, 255, 255, 0.12)",
+      menuBg: "#1C212E",
     },
     light: {
-      text: "#172033", // near-black slate, softer than pure #000
-      textDim: "#5D687B", // neutral gray, WCAG-AA on off-white backgrounds
-      grid: "rgba(17, 24, 39, 0.095)", // subtle cool-gray gridlines
-      border: "#D8E0EB", // soft border for hover/menu edges
-      menuBg: "#FFFFFF", // clean card background for hover labels
+      text: "#172033",
+      textDim: "#5D687B",
+      grid: "rgba(17, 24, 39, 0.095)",
+      border: "#D8E0EB",
+      menuBg: "#FFFFFF",
     },
   };
 
-  // Reusable categorical palette for traces (bars, lines, pies, donuts, etc.).
-  // Muted, modern BI tones (Tableau/Power BI inspired), ordered for maximum
-  // adjacent contrast and chosen to remain distinguishable for the most
-  // common forms of color-blindness (deuteranopia/protanopia/tritanopia).
   const CATEGORICAL_COLORWAY = [
-    "#4C78A8", // Blue
-    "#2CA7A0", // Teal
-    "#E68A3C", // Orange
-    "#8B7CC9", // Purple
-    "#54A27A", // Emerald
-    "#D65F7A", // Rose
-    "#E0B03D", // Amber
-    "#6F71B5", // Indigo
-    "#4FB3C7", // Cyan
-    "#8C97A8", // Slate
+    "#4C78A8",
+    "#2CA7A0",
+    "#E68A3C",
+    "#8B7CC9",
+    "#54A27A",
+    "#D65F7A",
+    "#E0B03D",
+    "#6F71B5",
+    "#4FB3C7",
+    "#8C97A8",
   ];
 
-  // Sequential scale for heatmaps / continuous color axes (single-hue ramp,
-  // reads well on both dark and light canvases since it's driven by opacity
-  // rather than by lightness alone).
   const SEQUENTIAL_COLORSCALES = {
     dark: [
       [0, "#12315A"],

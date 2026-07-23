@@ -1,7 +1,3 @@
-"""
-Global configuration: paths, theme tokens, and shared constants.
-Centralised here so nothing is hardcoded twice across the app.
-"""
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,10 +10,6 @@ GITHUB_REPOSITORY_URL = os.environ.get(
     "https://github.com/Mahmoud-islamcs/Neuro-Digital-Analytics",
 )
 
-# ------------------------------------------------------------------
-# Dark, glassmorphism-friendly palette. Every chart pulls from here
-# so the whole app stays visually consistent (no ad-hoc chart colors).
-# ------------------------------------------------------------------
 COLORS = {
     "bg": "#0b0f19",
     "bg_alt": "#0f1420",
@@ -35,7 +27,6 @@ COLORS = {
     "grid": "rgba(255,255,255,0.06)",
 }
 
-# Brainrot stage -> color, ordered from best to worst.
 STAGE_ORDER = ["Healthy", "Casual", "Advanced", "Critical"]
 STAGE_COLORS = {
     "Healthy": COLORS["green"],
@@ -57,5 +48,4 @@ CATEGORICAL_SEQUENCE = [
     COLORS["green"], COLORS["red"], COLORS["primary_soft"], "#38bdf8",
 ]
 
-# Plotly template shared by every chart builder in utils/chart_helpers.py
 PLOTLY_TEMPLATE = "brainrot_dark"

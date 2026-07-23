@@ -41,8 +41,8 @@ Deliverable | Purpose | Live Demo |
 |---|---|---|
 **Power BI Dashboard** | Executive-grade BI reporting for stakeholders — the primary analytical deliverable of the project |  [View Dashboard](https://app.powerbi.com/groups/07cb4191-b747-423b-b7b7-fdf21a0f55bc/reports/6da0176b-4e95-4349-9a00-efd328a6733d?ctid=dee1ed73-19ca-4ce0-8066-8261fbabbeaa&pbi_source=linkShare) |
 **Streamlit ML Prediction App** | A trained classification model surfaced through an interactive, user-facing prediction tool |  [Launch App](https://brainrot-analytics-egy.streamlit.app/) |
-**AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Under Development* |
-**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  [Open Dashboard](https://a58ad2a9-2b04-4b8b-9e4f-7d63c67e53c5.plotly.app/insights) |
+**AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Available Locally* |
+**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  *Available Locally* |
 
 A supplementary multi-page **Plotly Dash** web application is also included, offering a fully custom-built alternative front end over the same data model.
 
@@ -56,7 +56,8 @@ The dataset covers **5,000 daily activity records from 99 Egyptian students**, t
 
 The **Power BI dashboard is the flagship deliverable of this project** — a polished, five-page executive report built on a custom **"Brain Glitch Digital"** dark cyberpunk theme, designed for stakeholder presentation and graduation defense. It is the primary lens through which the project's findings are meant to be consumed.
 
-📁 File: [`dashboards_BI/Brain-rot_final_Dashboard.pbix`](dashboards_BI/Brain-rot_final_Dashboard.pbix)
+📁 File: [`dashboards_BI/Brain-rot_final_Dashboard.pbix`](dashboards_BI/Brain-rot_final_Dashboard.pbix)  
+🖼️ Dashboard Screenshots: Available under [`visuals/dashboards_screenshots/power_bi/`](visuals/dashboards_screenshots/power_bi/)
 
 ### Landing Page
 
@@ -89,6 +90,9 @@ Surfaces when risky behavior actually happens during the day and week. Headline 
 ## Machine Learning & Prediction App
 
 The second-priority deliverable: a trained classifier that predicts a student's **Brain-Rot Stage** — served through an interactive **Streamlit** application anyone can use without touching code.
+
+📁 Model Artifacts & Evaluation Charts: Persisted under [`machine_learning/model/`](machine_learning/model/)  
+🖼️ Visual Analytics Gallery: Extended charts available under [`visuals/charts_gallery/`](visuals/charts_gallery/)
 
 ### Objective
 
@@ -131,6 +135,9 @@ The target variable is meaningfully imbalanced: Healthy 61%, Critical 18%, Advan
 | Critical | 0.945 | 0.851 | 0.895 | 181 |
 
 **Top drivers:** Total Reels Watched (55.8%), Focus Sessions Count (19.3%), Study Hours (8.0%), Is Late Night (5.8%), Age (4.1%), Coffee Consumed Per Day (2.6%), Device Type (4.4% combined).
+
+> [!NOTE]  
+> Model evaluation artifacts (such as [`confusion_matrix.png`](machine_learning/model/confusion_matrix.png), [`feature_importance.png`](machine_learning/model/feature_importance.png), and [`classification_report.txt`](machine_learning/model/classification_report.txt)) are located in [`machine_learning/model/`](machine_learning/model/). Additional exploratory charts are archived in [`visuals/charts_gallery/`](visuals/charts_gallery/).
 
 ### The Streamlit App
 
@@ -196,6 +203,8 @@ Flutter · Provider · Flask · Google Gemini API · SQL Server · SQLAlchemy ·
 ## Plotly Dash Web Application
 
 A supplementary, fully custom-built multi-page dashboard — included as an engineering showcase alongside the Power BI report, demonstrating the same data model rebuilt as a standalone Python web application.
+
+🖼️ Application Screenshots: Full multi-page screenshots are available under [`visuals/dashboards_screenshots/plotly_dash/`](visuals/dashboards_screenshots/plotly_dash/)
 
 ### Key Features
 

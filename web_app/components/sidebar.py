@@ -1,4 +1,3 @@
-"""Professional collapsible sidebar navigation."""
 from dash import html, dcc
 
 from config.settings import GITHUB_REPOSITORY_URL
@@ -12,6 +11,9 @@ NAV_ITEMS = [
     {"label": "Study & Productivity", "href": "/study", "icon": "bi bi-book-fill"},
     {"label": "Brain Rot Score", "href": "/brain-rot", "icon": "bi bi-cpu-fill"},
     {"label": "Correlation Analysis", "href": "/correlation", "icon": "bi bi-diagram-3-fill"},
+    {"label": "Cohort Analysis", "href": "/cohort", "icon": "bi bi-diagram-2-fill"},
+    {"label": "What-If Simulator", "href": "/simulator", "icon": "bi bi-sliders"},
+    {"label": "Export Center", "href": "/export-center", "icon": "bi bi-file-earmark-arrow-down-fill"},
     {"label": "Insights", "href": "/insights", "icon": "bi bi-lightbulb-fill"},
     {"label": "About", "href": "/about", "icon": "bi bi-info-circle-fill"},
 ]

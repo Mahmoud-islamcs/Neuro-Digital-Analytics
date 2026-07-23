@@ -1,7 +1,3 @@
-/* ============================================================
-   Brain Rot Analytics -- Dark Glassmorphism Theme
-   ============================================================ */
-
 :root {
   --bg: #0b0f19;
   --bg-alt: #0f1420;
@@ -248,7 +244,6 @@ a { text-decoration: none; color: inherit; }
 ::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* ---------------- App shell layout ---------------- */
 .app-shell {
   display: flex;
   min-height: 100vh;
@@ -268,7 +263,6 @@ a { text-decoration: none; color: inherit; }
 }
 .app-shell.sidebar-collapsed .main-content { margin-left: var(--sidebar-w-collapsed); }
 
-/* ---------------- Sidebar ---------------- */
 .sidebar {
   position: fixed;
   top: 0; left: 0; bottom: 0;
@@ -385,7 +379,6 @@ a { text-decoration: none; color: inherit; }
   background: var(--surface-hover);
   border-color: var(--accent-border-strong);
   box-shadow: 0 14px 32px var(--shadow);
-  /* transform: translateY(-1px); */
 }
 .sidebar-toggle-btn:focus-visible {
   outline: 2px solid var(--accent);
@@ -424,7 +417,6 @@ a { text-decoration: none; color: inherit; }
   background: var(--surface-hover);
   color: var(--text);
   box-shadow: 0 8px 22px var(--shadow-soft);
-  /* transform: translateY(-1px); */
 }
 .sidebar-link.active,
 .sidebar-link[aria-current="page"] {
@@ -509,7 +501,6 @@ a { text-decoration: none; color: inherit; }
   color: var(--text);
   border-color: rgba(34,211,238,0.45);
   background: linear-gradient(135deg, rgba(124,92,255,0.32), rgba(34,211,238,0.16));
-  /* transform: translateY(-1px); */
 }
 .github-icon {
   width: 20px;
@@ -549,7 +540,6 @@ a { text-decoration: none; color: inherit; }
   transform: translateX(-10px);
 }
 
-/* ---------------- Topbar ---------------- */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 4px 18px;
@@ -561,7 +551,6 @@ a { text-decoration: none; color: inherit; }
 }
 .icon-btn:hover { background: var(--surface-hover); }
 
-/* ---------------- Filter bar ---------------- */
 .global-filter-shell.is-hidden {
   display: none;
 }
@@ -577,7 +566,10 @@ a { text-decoration: none; color: inherit; }
 .filter-bar-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  width: 100%;
 }
 .filter-bar.is-stuck .filter-panel,
 .filter-bar.is-stuck .filters-collapse-btn {
@@ -592,7 +584,7 @@ a { text-decoration: none; color: inherit; }
   font-size: 13px;
   font-weight: 700;
   padding: 8px 14px;
-  margin-bottom: 12px;
+  margin-bottom: 0 !important;
   letter-spacing: 0;
   display: inline-flex !important;
   align-items: center;
@@ -607,7 +599,23 @@ a { text-decoration: none; color: inherit; }
   background: var(--surface-hover) !important;
   border-color: var(--accent-border) !important;
   box-shadow: 0 10px 24px var(--shadow-soft);
-  /* transform: translateY(-1px); */
+}
+.filter-status-pill {
+  background: var(--control-subtle-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: 0 2px 8px var(--shadow-soft);
+}
+.filter-2x2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .filters-collapse-btn:focus-visible,
 .filter-apply-btn:focus-visible,
@@ -618,13 +626,15 @@ a { text-decoration: none; color: inherit; }
 .filter-panel {
   background: var(--panel-bg);
   border: 1px solid var(--surface-border);
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 16px;
+  padding: 24px 24px 40px 24px !important;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  overflow: visible;
+  overflow: visible !important;
   position: relative;
   z-index: 3000;
+  height: auto !important;
+  min-height: fit-content;
   transition: box-shadow 0.18s ease, border-color 0.18s ease;
 }
 .filter-panel .row,
@@ -644,6 +654,48 @@ a { text-decoration: none; color: inherit; }
   margin: 0 0 7px;
   display: block;
 }
+.filter-group-card {
+  background: var(--control-subtle-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 20px 20px 32px 20px !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  overflow: visible;
+  height: 100%;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+}
+.filter-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.filter-group-card:hover {
+  border-color: var(--accent-border);
+  box-shadow: 0 8px 24px var(--shadow-soft);
+}
+.filter-group-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 8px;
+}
+.filter-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.filter-status-badge {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 12px rgba(124, 92, 255, 0.2);
+}
 .filter-actions {
   display: flex;
   justify-content: flex-end;
@@ -653,43 +705,43 @@ a { text-decoration: none; color: inherit; }
 }
 .filter-apply-btn,
 .filter-reset-btn {
-  min-height: 38px;
+  min-height: 40px;
   border-radius: 10px !important;
   font-size: 13px !important;
   font-weight: 700 !important;
-  padding: 8px 14px !important;
+  padding: 8px 16px !important;
 }
 .filter-apply-btn {
   border: none !important;
-  background: linear-gradient(135deg, var(--primary), var(--primary-soft)) !important;
-  box-shadow: 0 10px 22px rgba(124,92,255,0.16);
-  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease !important;
+  background: linear-gradient(135deg, var(--primary), #6366f1) !important;
+  box-shadow: 0 4px 15px rgba(124, 92, 255, 0.35) !important;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease, filter 0.2s ease !important;
 }
 .filter-apply-btn:hover {
-  filter: brightness(1.06);
-  /* transform: translateY(-1px); */
-  box-shadow: 0 12px 26px rgba(124,92,255,0.22);
+  filter: brightness(1.08);
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 25px rgba(124, 92, 255, 0.45) !important;
 }
 .filter-reset-btn {
-  background: var(--control-subtle-bg) !important;
+  background: transparent !important;
   border: 1px solid var(--surface-border) !important;
   color: var(--text-dim) !important;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease !important;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease !important;
 }
 .filter-reset-btn:hover {
   background: var(--surface-hover) !important;
   border-color: var(--accent-border) !important;
   color: var(--text) !important;
+  transform: translateY(-1px) !important;
 }
 .active-filter-summary {
   font-size: 12px;
   color: var(--text-dim);
-  margin-top: 10px;
-  padding-left: 4px;
+  margin-top: 0;
+  padding-left: 0;
   line-height: 1.5;
 }
 
-/* Dash Dropdown / DatePicker overrides */
 .filter-dd {
   min-height: 40px;
 }
@@ -891,7 +943,6 @@ a { text-decoration: none; color: inherit; }
 .rc-slider-handle { border-color: var(--primary) !important; }
 .rc-slider-rail { background: var(--surface-border) !important; }
 
-/* ---------------- Page header ---------------- */
 .page-header { margin-bottom: 18px; }
 .page-title { font-size: 24px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.4px; }
 .page-subtitle { font-size: 13.5px; color: var(--text-dim); margin: 0; }
@@ -899,7 +950,6 @@ a { text-decoration: none; color: inherit; }
 .data-note { background: rgba(34,211,238,0.08) !important; border: 1px solid rgba(34,211,238,0.25) !important;
   color: var(--text) !important; border-radius: var(--radius-sm) !important; font-size: 12.5px; }
 
-/* ---------------- Cards / Graphs (glassmorphism) ---------------- */
 .page-container {
   position: relative;
   z-index: 1;
@@ -935,7 +985,6 @@ a { text-decoration: none; color: inherit; }
   z-index: 2;
 }
 
-/* ---------------- KPI cards ---------------- */
 .kpi-card {
   background: var(--card-bg) !important;
   border: 1px solid var(--surface-border) !important;
@@ -960,7 +1009,6 @@ a { text-decoration: none; color: inherit; }
 .kpi-card:hover {
   border-color: var(--accent-border-strong) !important;
   box-shadow: 0 12px 28px var(--shadow);
-  /* transform: translateY(-2px); */
 }
 .kpi-header {
   display: flex;
@@ -1020,7 +1068,6 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
 }
 
-/* ---------------- Insights ---------------- */
 .insight-card {
   background: var(--surface) !important; border: 1px solid var(--surface-border) !important;
   border-radius: var(--radius) !important; height: 100%;
@@ -1034,7 +1081,6 @@ a { text-decoration: none; color: inherit; }
 .insight-title { font-weight: 700; font-size: 14.5px; margin-bottom: 6px; }
 .insight-text { font-size: 13px; color: var(--text-dim); margin: 0; line-height: 1.5; }
 
-/* ---------------- About / Placeholder cards ---------------- */
 .about-card, .placeholder-card {
   background: var(--surface) !important; border: 1px solid var(--surface-border) !important;
   border-radius: var(--radius) !important; height: 100%;
@@ -1048,7 +1094,6 @@ a { text-decoration: none; color: inherit; }
   padding: 7px 12px !important; margin: 4px 6px 4px 0 !important; font-size: 12px !important;
 }
 
-/* ---------------- Tables ---------------- */
 .dash-table-container {
   border-radius: var(--radius);
   overflow: hidden;
@@ -1072,7 +1117,6 @@ a { text-decoration: none; color: inherit; }
   padding: 4px 6px !important;
 }
 
-/* ---------------- Back to top ---------------- */
 .back-to-top-btn {
   position: fixed;
   right: 24px;
@@ -1126,7 +1170,6 @@ a { text-decoration: none; color: inherit; }
   color: var(--text) !important;
 }
 
-/* ---------------- Responsive ---------------- */
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
@@ -1205,6 +1248,25 @@ a { text-decoration: none; color: inherit; }
   .kpi-value { font-size: 21px; }
 }
 
-/* Loading spinner tint */
 ._dash-loading-callback, .dash-spinner { filter: hue-rotate(220deg); }
 
+.filter-container-collapsible {
+    overflow: visible;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out, margin-bottom 0.3s ease-in-out, padding 0.3s ease-in-out;
+    max-height: 2500px !important;
+    opacity: 1;
+    transform: translateY(0);
+    height: auto !important;
+}
+
+.filter-container-collapsed {
+    max-height: 0px !important;
+    opacity: 0 !important;
+    transform: translateY(-10px) !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    border-color: transparent !important;
+    pointer-events: none;
+    overflow: hidden !important;
+}

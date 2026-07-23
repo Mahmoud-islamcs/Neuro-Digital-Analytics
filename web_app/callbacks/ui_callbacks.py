@@ -1,4 +1,3 @@
-"""Small UI-only callbacks: sidebar collapse and persisted theme switching."""
 from dash import callback, Input, Output, State, ctx, html
 
 from components.sidebar import NAV_ITEMS
@@ -84,6 +83,7 @@ def sync_active_nav(pathname):
 )
 def sync_filter_visibility(pathname):
     classes = ["global-filter-shell"]
-    if _normalize_path(pathname) == "/about":
+    norm = _normalize_path(pathname)
+    if norm in ["/about", "/insights"]:
         classes.append("is-hidden")
     return " ".join(classes)
