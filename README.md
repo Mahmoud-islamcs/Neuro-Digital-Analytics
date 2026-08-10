@@ -42,9 +42,9 @@ Deliverable | Purpose | Live Demo |
 **Power BI Dashboard** | Executive-grade BI reporting for stakeholders — the primary analytical deliverable of the project |  [View Dashboard](https://app.powerbi.com/groups/07cb4191-b747-423b-b7b7-fdf21a0f55bc/reports/6da0176b-4e95-4349-9a00-efd328a6733d?ctid=dee1ed73-19ca-4ce0-8066-8261fbabbeaa&pbi_source=linkShare) |
 **Streamlit ML Prediction App** | A trained classification model surfaced through an interactive, user-facing prediction tool |  [Launch App](https://brainrot-analytics-egy.streamlit.app/) |
 **AI Chatbot** | A natural-language interface (English & Arabic) that lets anyone query the dataset conversationally |  *Under Development* |
-**Plotly Dash Dashboard** | A modern interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  [Open Dashboard](https://a58ad2a9-2b04-4b8b-9e4f-7d63c67e53c5.plotly.app/insights) |
+**Plotly Dash Dashboard** | A modern 13-page interactive analytics dashboard built with Plotly Dash for advanced data exploration and insights |  [Open Dashboard](https://a58ad2a9-2b04-4b8b-9e4f-7d63c67e53c5.plotly.app/insights) |
 
-A supplementary multi-page **Plotly Dash** web application is also included, offering a fully custom-built alternative front end over the same data model.
+A supplementary 13-page **Plotly Dash** web application is also included, offering a fully custom-built alternative front end over the same data model.
 
 The motivating question is straightforward: does heavy short-form content consumption measurably reduce a student's ability to focus and study? The data says yes — and this project quantifies how and where that relationship is strongest.
 
@@ -57,7 +57,7 @@ The dataset covers **5,000 daily activity records from 99 Egyptian students**, t
 The **Power BI dashboard is the flagship deliverable of this project** — a polished, five-page executive report built on a custom **"Brain Glitch Digital"** dark cyberpunk theme, designed for stakeholder presentation and graduation defense. It is the primary lens through which the project's findings are meant to be consumed.
 
 📁 File: [`dashboards_BI/Brain-rot_final_Dashboard.pbix`](dashboards_BI/Brain-rot_final_Dashboard.pbix)  
-🖼️ Dashboard Screenshots: Available under [`visuals/dashboards_screenshots/power_bi/`](visuals/dashboards_screenshots/power_bi/)
+🖼️ Executive Dashboard PDF Export: Available under [`visuals/dashboards_screenshots/power_bi/Brain-rot_final_Dashboard.pdf`](visuals/dashboards_screenshots/power_bi/Brain-rot_final_Dashboard.pdf)
 
 ### Landing Page
 
@@ -92,7 +92,8 @@ Surfaces when risky behavior actually happens during the day and week. Headline 
 The second-priority deliverable: a trained classifier that predicts a student's **Brain-Rot Stage** — served through an interactive **Streamlit** application anyone can use without touching code.
 
 📁 Model Artifacts & Evaluation Charts: Persisted under [`machine_learning/model/`](machine_learning/model/)  
-🖼️ Visual Analytics Gallery: Extended charts available under [`visuals/charts_gallery/`](visuals/charts_gallery/)
+🖼️ Visual Analytics Gallery: Extended charts available under [`visuals/charts_gallery/`](visuals/charts_gallery/)  
+📸 App Screenshots: UI walkthrough captures archived in [`machine_learning/screenshots/`](machine_learning/screenshots/)
 
 ### Objective
 
@@ -143,11 +144,11 @@ The target variable is meaningfully imbalanced: Healthy 61%, Critical 18%, Advan
 
 📁 File: [`machine_learning/streamlit_app.py`](machine_learning/streamlit_app.py)
 
-A lightweight, interactive front end where any user enters 7 daily behavioral values and instantly receives:
+A lightweight, interactive multi-page Streamlit application structured into three dedicated views:
 
-- Their predicted Brain-Rot Stage
-- The model's class probabilities
-- Personalized, stage-specific behavioral recommendations
+- **Predict**: Enter 7 daily behavioral habits to calculate predicted Brain-Rot Stage, class probabilities, and personalized stage-specific recommendations.
+- **Insights**: Interactive model evaluation hub featuring feature importance plots, confusion matrix displays, classification reports, and a numerical correlation heatmap.
+- **About**: In-depth project documentation covering dataset imputation strategies, committee presentation points, and data leakage prevention architecture.
 
 <br>
 
@@ -158,13 +159,13 @@ The third-priority deliverable: a natural-language analytics assistant built wit
 ### Features
 
 - Natural language analytics in **English & Arabic**
-- AI-powered SQL generation via **Google Gemini**
-- Intent classification to reject unrelated / out-of-scope questions
-- SQL safety validation before execution
+- AI-powered SQL generation via **Google Gemini (`gemini-2.5-flash`)**
+- Intent classification (`detect_intent`) to reject unrelated / out-of-scope questions
+- SQL safety validation (`is_safe_query`, `validate_columns`) before execution
 - Automatic chart selection — KPI, Bar, Line, Scatter, or Table
 - AI-generated insight text for every response
-- **Flutter** mobile interface following MVVM architecture
-- **Flask** REST API backend with Provider state management
+- **Flutter** mobile/cross-platform interface
+- **Flask** REST API backend (`chatbot/backend/dp.py`) with SQLAlchemy & PyODBC connection handling
 - Full loading, error, and retry states
 
 ### Architecture
@@ -210,7 +211,7 @@ A supplementary, fully custom-built multi-page dashboard — included as an engi
 
 | Feature | Description |
 |---|---|
-| **10-page Plotly Dash application** | Each page has a distinct analytical purpose, linked by a persistent collapsible sidebar. |
+| **13-page Plotly Dash application** | Each page has a distinct analytical purpose, linked by a persistent collapsible sidebar. |
 | **Global cross-page filtering** | One filter bar (age group, region, device, brain rot stage, wellbeing band, coffee level, smoking status, study hours range, date range) broadcasts to every chart via a shared `dcc.Store`. |
 | **12 dynamic KPI cards** | Live summary metrics recalculated on every filter change. |
 | **Dark / Light mode with persistent state** | Theme stored in `localStorage`, synced to every Plotly figure via a MutationObserver-driven JS engine. |
@@ -218,7 +219,7 @@ A supplementary, fully custom-built multi-page dashboard — included as an engi
 | **Glassmorphism UI** | Custom dark design system in CSS with semi-transparent surfaces and Inter typography. |
 | **Interactive scatter explorer** | User-controlled X/Y/color axes with OLS trendline and live Pearson r. |
 | **Star schema ETL layer** | `data/loader.py` loads 5 raw CSVs, resolves known data-quality issues, merges and derives columns — cached in-process. |
-| **CSV export** | Native CSV export from the Users data table. |
+| **CSV export** | Native CSV export from the Users data table and dedicated Export Center. |
 
 ### Dashboard Pages
 
@@ -232,6 +233,9 @@ A supplementary, fully custom-built multi-page dashboard — included as an engi
 | **Study & Productivity** | Study hours, focus sessions, exam season effects |
 | **Brain Rot Score** | Deep-dive into the exposure score and 3D relationship view |
 | **Correlation Analysis** | Full correlation matrix, interactive explorer, scatter matrix |
+| **Cohort Analysis** | User retention/engagement decay over time and behavioral user clustering |
+| **What-If Simulator** | Scenario adjustment controls simulating behavioral changes on wellbeing and exposure |
+| **Export Center** | Bulk dataset downloads, executive summary reports, and active filter review |
 | **Automated Insights** | Auto-generated, threshold-gated findings |
 | **About** | Data model card, data quality notes, full data dictionary |
 
@@ -258,9 +262,12 @@ Neuro-Digital-Analytics/
 │
 ├── machine_learning/                  # ⭐ Priority 2 — ML pipeline + Streamlit app
 │   ├── train_model.ipynb              # Training notebook: EDA → preprocessing → model selection → evaluation
-│   ├── streamlit_app.py               # Interactive prediction app (7 inputs → stage prediction)
+│   ├── streamlit_app.py               # Multi-page interactive prediction app (Predict, Insights, About)
 │   ├── utils.py                       # Feature list, preprocessing, column alignment helpers
 │   ├── requirements.txt               # ML-specific dependencies
+│   ├── data/                          # Dataset copy for ML pipeline
+│   │   └── BrainRot_Final_Dataset.csv
+│   ├── screenshots/                   # Streamlit UI walkthrough screenshots
 │   └── model/                         # Persisted model artifacts
 │       ├── brainrot_model.pkl         # Trained Random Forest (~14 MB)
 │       ├── encoder.pkl                # Fitted label encoder
@@ -271,18 +278,18 @@ Neuro-Digital-Analytics/
 │       ├── confusion_matrix.png
 │       └── classification_report.txt
 │
-├── chatbot/                           # ⭐ Priority 3 — Flutter AI Chatbot
-│   ├── lib/
+├── chatbot/                           # ⭐ Priority 3 — AI Chatbot (Flask API + Flutter Front-End)
 │   ├── backend/
-│   ├── android/
-│   ├── assets/
-│   ├── pubspec.yaml
+│   │   ├── dp.py                      # Flask REST API with Gemini 2.5 & SQL Server engine
+│   │   ├── prompts.py                 # Gemini prompt engineering & SQL schema definitions
+│   │   └── requirements.txt           # Chatbot backend dependencies
+│   ├── pubspec.yaml                   # Flutter project configuration
 │   └── README.md
 │
-├── web_app/                           # Plotly Dash application (supplementary)
+├── web_app/                           # Plotly Dash web application (supplementary 13-page app)
 │   ├── app.py                         # Entry point — initialize Dash, layout, import callbacks
 │   ├── assets/
-│   │   ├── style.css                  # Custom CSS design system (~29 KB)
+│   │   ├── style.css                  # Custom CSS design system (~36 KB)
 │   │   └── theme.js                   # Dark/light theme sync engine for Plotly figures
 │   ├── callbacks/
 │   │   ├── filter_callbacks.py
@@ -305,6 +312,9 @@ Neuro-Digital-Analytics/
 │   │   ├── study.py
 │   │   ├── brain_rot.py
 │   │   ├── correlation.py
+│   │   ├── cohort.py
+│   │   ├── simulator.py
+│   │   ├── export_center.py
 │   │   ├── insights.py
 │   │   └── about.py
 │   └── utils/
@@ -328,10 +338,11 @@ Neuro-Digital-Analytics/
 │   └── database_erd.png
 │
 ├── visuals/                            # Chart exports and dashboard screenshots
-│   ├── charts_gallery/
+│   ├── README.md
+│   ├── charts_gallery/                 # 14 exploratory chart PNGs
 │   └── dashboards_screenshots/
-│       ├── power_bi/
-│       └── plotly_dash/
+│       ├── power_bi/                  # Brain-rot_final_Dashboard.pdf (Full executive report export)
+│       └── plotly_dash/                # 13 page screenshots for the Plotly Dash app
 │
 └── docs/
     ├── Data_Dictionry.csv
@@ -352,8 +363,8 @@ Neuro-Digital-Analytics/
 | **Joblib** | Model and artifact serialization |
 | **Flutter** | AI chatbot mobile front end (MVVM architecture) |
 | **Flask** | Chatbot REST API backend |
-| **Google Gemini API** | Natural-language-to-SQL generation for the chatbot |
-| **Plotly Dash** | Supplementary multi-page web application |
+| **Google Gemini API** | Natural-language-to-SQL generation for the chatbot (`gemini-2.5-flash`) |
+| **Plotly Dash** | Supplementary multi-page web application (13 pages) |
 | **Plotly (Express + Graph Objects)** | Interactive chart library across Dash and notebooks |
 | **Dash Bootstrap Components** | Responsive grid, modals, alerts, collapse, badges |
 | **SQL Server** | Relational schema design, DDL, and data loading |
@@ -406,7 +417,7 @@ Opens automatically at `http://localhost:8501`.
 ```bash
 cd chatbot/backend
 pip install -r requirements.txt
-python app.py          # starts the Flask API
+python dp.py          # starts the Flask API
 
 cd ../               # in a separate terminal
 flutter pub get
